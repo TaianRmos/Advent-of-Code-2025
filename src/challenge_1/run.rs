@@ -45,7 +45,6 @@ pub fn part_2() -> std::io::Result<()> {
 
     for code in code_instructions {
         // Seperate the direction from the amount of clicks the dial will rotate
-        println!("Starting: {pointing_to}, applying: {code}");
         let direction: char = code.chars().next().unwrap();
         let nb_clicks: i32 = code[1..].parse().unwrap();
         
@@ -74,10 +73,7 @@ pub fn part_2() -> std::io::Result<()> {
         // Adding again if the dial ends up on 0
         if pointing_to == 0 {
             amount_of_zeros += 1;
-        }
-
-        println!("Ended: {pointing_to}, counted: {amount_of_zeros}");
-        
+        }        
     }
 
     println!("Secret code: {amount_of_zeros}");
