@@ -82,7 +82,7 @@ fn run_all_challenges() -> std::io::Result<()> {
 
 fn main() -> std::io::Result<()> {
     // create_challenge_folder(6)?;
-    challenge_6::run::part_1()?;
-    // run_all_challenges()?;
+    // challenge_6::run::part_2()?;
+    run_all_challenges()?;
     Ok(())
 }
