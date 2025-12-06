@@ -1,7 +1,7 @@
 use std::fs;
 
 
-pub fn _part_1() -> std::io::Result<()> {
+pub fn part_1() -> std::io::Result<()> {
     let content: String = fs::read_to_string("src/challenge_5/input.txt")?;
 
     // Find the index of the empty line
@@ -30,12 +30,12 @@ pub fn _part_1() -> std::io::Result<()> {
         }
     }
 
-    println!("Result: {fresh_ids}");
+    println!("Result part 1: {fresh_ids}");
     Ok(())
 }
 
 
-pub fn _part_2() -> std::io::Result<()> {
+pub fn part_2() -> std::io::Result<()> {
     let content: String = fs::read_to_string("src/challenge_5/input.txt")?;
 
     // Find the index of the empty line
@@ -84,7 +84,7 @@ pub fn _part_2() -> std::io::Result<()> {
         fresh_ids += end - start + 1;
     }
 
-    println!("{fresh_ids}");
+    println!("Result part 2: {fresh_ids}");
     Ok(())
 }
 

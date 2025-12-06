@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn _part_1() -> std::io::Result<()> {
+pub fn part_1() -> std::io::Result<()> {
     // Read the file and extract the lines (the instructions)
     let input_file: String = fs::read_to_string("src/challenge_1/input.txt")?;
     let code_instructions: Vec<&str> = input_file.lines().collect();
@@ -28,13 +28,13 @@ pub fn _part_1() -> std::io::Result<()> {
         }
     }
 
-    println!("Secret code: {amount_of_zeros}");
+    println!("Result part 1: {amount_of_zeros}");
 
     Ok(())
 }
 
 
-pub fn _part_2() -> std::io::Result<()> {
+pub fn part_2() -> std::io::Result<()> {
     // Read the file and extract the lines (the instructions)
     let input_file: String = fs::read_to_string("src/challenge_1/input.txt")?;
     let code_instructions: Vec<&str> = input_file.lines().collect();
@@ -76,7 +76,7 @@ pub fn _part_2() -> std::io::Result<()> {
         }        
     }
 
-    println!("Secret code: {amount_of_zeros}");
+    println!("Result part 2: {amount_of_zeros}");
 
     Ok(())
 }

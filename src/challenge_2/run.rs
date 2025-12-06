@@ -1,7 +1,7 @@
 use std::fs;
 
 
-pub fn _part_1() -> std::io::Result<()> {
+pub fn part_1() -> std::io::Result<()> {
     // Reads the first (and only) line, then split on the ','
     let content: String = fs::read_to_string("src/challenge_2/input.txt")?;
     let ranges: Vec<&str> = content.trim_end().split(",").collect();
@@ -27,12 +27,12 @@ pub fn _part_1() -> std::io::Result<()> {
         }
     }
 
-    println!("Answer: {total_incorrect_ids}");
+    println!("Result part 1: {total_incorrect_ids}");
     Ok(())
 }
 
 
-pub fn _part_2() -> std::io::Result<()> {
+pub fn part_2() -> std::io::Result<()> {
     // Reads the first (and only) line, then split on the ","
     let content: String = fs::read_to_string("src/challenge_2/input.txt")?;
     let ranges: Vec<&str> = content.trim_end().split(",").collect();
@@ -72,6 +72,6 @@ pub fn _part_2() -> std::io::Result<()> {
         }
     }
 
-    println!("Answer: {total_incorrect_ids}");
+    println!("Result part 2: {total_incorrect_ids}");
     Ok(())
 }
