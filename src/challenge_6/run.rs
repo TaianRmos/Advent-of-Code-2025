@@ -1,7 +1,7 @@
 use std::fs;
 
 
-pub fn part_1() -> std::io::Result<()> {{
+pub fn part_1() -> std::io::Result<()> {
     // Reads the file
     let content: String = fs::read_to_string("src/challenge_6/input.txt")?;
     let math_lines: Vec<&str> = content.lines().collect();
@@ -37,10 +37,10 @@ pub fn part_1() -> std::io::Result<()> {{
 
     println!("Result part 1: {final_result}");
     Ok(())
-}}
+}
 
 
-pub fn part_2() -> std::io::Result<()> {{
+pub fn part_2() -> std::io::Result<()> {
     // Reads the file
     let content: String = fs::read_to_string("src/challenge_6/input.txt")?;
     let math_lines: Vec<&str> = content.lines().collect();
@@ -102,4 +102,4 @@ pub fn part_2() -> std::io::Result<()> {{
     final_result += result;
     println!("Result part 2: {final_result}");
     Ok(())
-}}
+}

@@ -8,26 +8,27 @@ mod challenge_3;
 mod challenge_4;
 mod challenge_5;
 mod challenge_6;
+mod challenge_7;
 
 // Content of rust files when creating a new challenge
 const MOD_FILE_CONTENT: &str = "#[allow(dead_code)]\npub mod run;";
 const RUN_FILE_CONTENT: &str = r#"use std::fs;
 
 
-pub fn part_1() -> std::io::Result<()> {{
-    let _content: String = fs::read_to_string("src/challenge_{{}}/input.txt")?;
+pub fn part_1() -> std::io::Result<()> {
+    let _content: String = fs::read_to_string("src/challenge_{{}}/test.txt")?;
     let result: i32 = 0;
     println!("Result part 1: {result}");
     Ok(())
-}}
+}
 
 
-pub fn part_2() -> std::io::Result<()> {{
-    let _content: String = fs::read_to_string("src/challenge_{{}}/input.txt")?;
+pub fn part_2() -> std::io::Result<()> {
+    let _content: String = fs::read_to_string("src/challenge_{{}}/test.txt")?;
     let result: i32 = 0;
     println!("Result part 2: {result}");
     Ok(())
-}}"#;
+}"#;
 
 
 #[allow(dead_code)]
@@ -76,13 +77,17 @@ fn run_all_challenges() -> std::io::Result<()> {
     challenge_6::run::part_1()?;
     challenge_6::run::part_2()?;
     
+    println!("\n==========DAY 7==========\n");
+    challenge_7::run::part_1()?;
+    challenge_7::run::part_2()?;
+    
     Ok(())
 }
 
 
 fn main() -> std::io::Result<()> {
-    // create_challenge_folder(6)?;
-    // challenge_6::run::part_2()?;
+    // create_challenge_folder(7)?;
+    // challenge_7::run::part_2()?;
     run_all_challenges()?;
     Ok(())
 }
