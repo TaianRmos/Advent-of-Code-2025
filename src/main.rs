@@ -99,5 +99,6 @@ fn main() -> std::io::Result<()> {
     // create_challenge_folder(9)?;
     challenge_9::run::part_2()?;
     // run_all_challenges()?;
+    // 173 687 560
     Ok(())
 }
