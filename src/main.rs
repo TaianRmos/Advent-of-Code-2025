@@ -10,6 +10,7 @@ mod challenge_5;
 mod challenge_6;
 mod challenge_7;
 mod challenge_8;
+mod challenge_9;
 
 // Content of rust files when creating a new challenge
 const MOD_FILE_CONTENT: &str = "#[allow(dead_code)]\npub mod run;";
@@ -86,13 +87,17 @@ fn run_all_challenges() -> std::io::Result<()> {
     challenge_8::run::part_1()?;
     challenge_8::run::part_2()?;
     
+    println!("\n==========DAY 9==========\n");
+    challenge_9::run::part_1()?;
+    challenge_9::run::part_2()?;
+    
     Ok(())
 }
 
 
 fn main() -> std::io::Result<()> {
-    // create_challenge_folder(8)?;
-    // challenge_8::run::part_2()?;
-    run_all_challenges()?;
+    // create_challenge_folder(9)?;
+    challenge_9::run::part_2()?;
+    // run_all_challenges()?;
     Ok(())
 }
