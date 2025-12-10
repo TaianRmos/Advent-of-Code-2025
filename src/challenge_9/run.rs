@@ -1,9 +1,44 @@
 use std::{fs, vec};
-use std::fs::File;
-use std::io::Write;
+
+fn is_inside(grid: &Vec<Vec<u8>>, y: usize, x: usize) -> bool {
+    if grid[y][x] == 1 {
+        return true
+    }
+
+    let width = grid[0].len();
+    let mut crossings = 0;
+
+    if x > width/2 {
+        // Cast a ray to the right
+        for j in x+1 .. width {
+            if grid[y][j] == 1 && grid[y][j-1] == 1 &&  grid[y][j-2] == 1{
+                continue
+            }
+            if grid[y][j] == 1 {
+                crossings += 1;
+            }
+        }
+    }
+    else {
+        // Cast a ray to the left
+        for j in (0..x).rev() {
+            // skip thick horizontal lines of 3 cells
+            if grid[y][j] == 1 && grid[y][j+1] == 1 && grid[y][j+2] == 1 {
+                continue
+            }
+            if grid[y][j] == 1 {
+                crossings += 1;
+            }
+        }
+    }
 
 
-fn print_grid(grid: &Vec<Vec<char>>) {
+    // odd = inside, even = outside
+    crossings % 2 == 1
+}
+
+
+fn print_grid(grid: &Vec<Vec<u8>>) {
     for row in grid {
         for cell in row {
             print!("{cell}");
@@ -44,8 +79,8 @@ pub fn part_1() -> std::io::Result<()> {
 
 pub fn part_2() -> std::io::Result<()> {
     // Reading the file and extracting the points
-    let content: String = fs::read_to_string("src/challenge_9/test.txt")?;
-    let points: Vec<(i64, i64)> = content.lines()
+    let content: String = fs::read_to_string("src/challenge_9/input.txt")?;
+    let mut points: Vec<(i64, i64)> = content.lines()
         .map(|s| {
             let mut splitted = s.split(",");
             let x: i64 = splitted.next().unwrap().parse().unwrap();
@@ -53,82 +88,70 @@ pub fn part_2() -> std::io::Result<()> {
             (x, y)
         })
         .collect();
+    let last_point: (i64, i64) = points[0].clone();
+    points.push(last_point);
 
     // Get the max values for x and y to construct the grid
     let (max_x, max_y) = points.iter()
         .fold((i64::MIN, i64::MIN), |(mx, my), (x, y)| {
             (mx.max(*x), my.max(*y))
         });
-    
-    // points_on_row[x] has the list of y coordinates where we have points on row x
-    // Since we should have only 2 (verified), it's either [0, 0], or [ya, yb]
-    let mut points_on_row: Vec<Vec<i64>> = vec![Vec::new(); (max_y + 1) as usize];
+        
+    let mut grid: Vec<Vec<u8>> = vec![vec![0; (max_x + 1) as usize]; (max_y + 1 ) as usize];
+    let mut current_position = points[0].clone();
+    grid[current_position.1 as usize][current_position.0 as usize] = 1;
 
-    // Fill the points into the rows and columns
-    for point in &points {
-        let (x, y) = point.clone();
-        points_on_row[y as usize].push(x);
-    }
-
-    // Fill the empty vectors with 2 zeros, and sort to simplify the use case
-    for i in 0..points_on_row.len() {
-        if points_on_row[i].len() == 0 {
-            points_on_row[i].push(0);
-            points_on_row[i].push(0);
+    // Trace the outline of the path
+    for point in points.clone() {
+        // If points are aligned on the x axis
+        if point.0 == current_position.0 {
+            // We need to check which y is larger for the 'for' loop
+            if current_position.1 < point.1 {
+                for i in current_position.1..=point.1 {
+                    grid[i as usize][point.0 as usize] = 1;
+                }
+            }
+            else {
+                for i in point.1..=current_position.1 {
+                    grid[i as usize][point.0 as usize] = 1;
+                }
+            }
         }
+        // If points are aligned on the y axis
         else {
-            points_on_row[i].sort();
+            // We need to check which y is larger for the 'for' loop
+            if current_position.0 < point.0 {
+                for i in current_position.0..=point.0 {
+                    grid[point.1 as usize][i as usize] = 1;
+                }
+            }
+            else {
+                for i in point.0..=current_position.0 {
+                    grid[point.1 as usize][i as usize] = 1;
+                }
+            }
         }
+        current_position = point.clone();
     }
 
-    let mut file = File::create("output_raw.txt")?;
-
-    for i in 0..points_on_row.len() {
-        writeln!(file, "{i} - {:?}", points_on_row[i])?;
-    }
-    writeln!(file)?;
-
-    let mut start: i64 = 0;
-    let mut end: i64 = 0;
-    for i in 0..points_on_row.len() {
-        // Bot points are 0 (no # on the row)
-        if points_on_row[i][0] == 0 && points_on_row[i][1] == 0 {
-            points_on_row[i][0] = start;
-            points_on_row[i][1] = end;
-        }
-        // Start and end are not initialize yet
-        else if start == 0 && end == 0 {
-            start = points_on_row[i][0];
-            end = points_on_row[i][1];
-        }
-        // Enlarge on the left
-        else if points_on_row[i][0] < start && points_on_row[i][1] == start {
-            points_on_row[i][1] = end;
-            start = points_on_row[i][0];
-        }
-        // Enlarge on the right
-        else if points_on_row[i][0] == end && points_on_row[i][1] > end {
-            points_on_row[i][0] = start;
-            end = points_on_row[i][1];
-        }
-        // Shrink on the left
-        else if points_on_row[i][0] == start && points_on_row[i][1] < end {
-            start = points_on_row[i][1];
-            points_on_row[i][1] = end;
-        }
-        // Shrink on the right
-        else if points_on_row[i][0] > start && points_on_row[i][1] == end {
-            end = points_on_row[i][0];
-            points_on_row[i][0] = start;
-        }
-    }
-
-    let mut file = File::create("output.txt")?;
-
-    for i in 0..points_on_row.len() {
-        writeln!(file, "{i} - {:?}", points_on_row[i])?;
-    }
-    writeln!(file)?;
+    // Fill the inside of the shape
+    // let mut is_filling: bool = false;
+    // for i in 0..grid.len() {
+    //     for j in 0..grid[0].len() {
+    //         if is_filling && grid[i][j] == 0 {
+    //             grid[i][j] = 2;
+    //         }
+    //         else if grid[i][j] == 1 {
+    //             if !is_filling {
+    //                 is_filling = true;
+    //             }
+    //             else if grid[i][j-1] != 1 {
+    //                 is_filling = false;
+    //             }
+    //         }
+    //     }
+    //     is_filling = false;
+    // }
 
     let mut max_area: i64 = 0;
     for i in 0..points.len()-1 {
@@ -136,12 +159,9 @@ pub fn part_2() -> std::io::Result<()> {
         for j in i+1..points.len() {
             let point_b: (i64, i64) = points[j];
 
-            if point_a.0 < points_on_row[point_b.1 as usize][0] || point_a.0 > points_on_row[point_b.1 as usize][1] {
-                continue;
-            }
-
-            if point_b.0 < points_on_row[point_a.1 as usize][0] || point_b.0 > points_on_row[point_a.1 as usize][1] {
-                continue;
+            // If it's not inside the shape, we skip it
+            if !is_inside(&grid, point_a.1 as usize, point_b.0 as usize) || !is_inside(&grid, point_b.1 as usize, point_a.0 as usize) {
+                continue
             }
 
             let area: i64 = ((point_a.0 - point_b.0).abs() + 1) * ((point_a.1 - point_b.1).abs() + 1);
