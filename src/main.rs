@@ -11,6 +11,7 @@ mod challenge_6;
 mod challenge_7;
 mod challenge_8;
 mod challenge_9;
+mod challenge_10;
 
 // Content of rust files when creating a new challenge
 const MOD_FILE_CONTENT: &str = "#[allow(dead_code)]\npub mod run;";
@@ -55,50 +56,53 @@ fn create_challenge_folder(number: usize) -> std::io::Result<()> {
 
 #[allow(dead_code)]
 fn run_all_challenges() -> std::io::Result<()> {
-    println!("\n==========DAY 1==========\n");
+    println!("\n==========DAY 01==========\n");
     challenge_1::run::part_1()?;
     challenge_1::run::part_2()?;
     
-    println!("\n==========DAY 2==========\n");
+    println!("\n==========DAY 02==========\n");
     challenge_2::run::part_1()?;
     challenge_2::run::part_2()?;
     
-    println!("\n==========DAY 3==========\n");
+    println!("\n==========DAY 03==========\n");
     challenge_3::run::part_1()?;
     challenge_3::run::part_2()?;
     
-    println!("\n==========DAY 4==========\n");
+    println!("\n==========DAY 04==========\n");
     challenge_4::run::part_1()?;
     challenge_4::run::part_2()?;
     
-    println!("\n==========DAY 5==========\n");
+    println!("\n==========DAY 05==========\n");
     challenge_5::run::part_1()?;
     challenge_5::run::part_2()?;
     
-    println!("\n==========DAY 6==========\n");
+    println!("\n==========DAY 06==========\n");
     challenge_6::run::part_1()?;
     challenge_6::run::part_2()?;
     
-    println!("\n==========DAY 7==========\n");
+    println!("\n==========DAY 07==========\n");
     challenge_7::run::part_1()?;
     challenge_7::run::part_2()?;
     
-    println!("\n==========DAY 8==========\n");
+    println!("\n==========DAY 08==========\n");
     challenge_8::run::part_1()?;
     challenge_8::run::part_2()?;
     
-    println!("\n==========DAY 9==========\n");
+    println!("\n==========DAY 09==========\n");
     challenge_9::run::part_1()?;
     challenge_9::run::part_2()?;
+    
+    println!("\n==========DAY 10==========\n");
+    challenge_10::run::part_1()?;
+    challenge_10::run::part_2()?;
     
     Ok(())
 }
 
 
 fn main() -> std::io::Result<()> {
-    // create_challenge_folder(9)?;
-    challenge_9::run::part_2()?;
+    // create_challenge_folder(10)?;
+    challenge_10::run::part_1()?;
     // run_all_challenges()?;
-    // 173 687 560
     Ok(())
 }
